@@ -17,10 +17,10 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authToken = this.auth.getTokenFromLocalStorage();
-    if (authToken) {
+    if (authToken && !request.headers.get('Authenticating')) {
         request = request.clone({
             setHeaders: {
-              Authorization: `Bearer ${this.auth.getTokenFromLocalStorage()}`
+              Authorization: `Bearer ${authToken}`
             }
           });
     }

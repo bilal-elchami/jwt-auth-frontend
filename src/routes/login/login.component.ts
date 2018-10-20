@@ -14,10 +14,10 @@ export class LoginComponent {
     username: string;
     password: string;
 
-    signin() {
+    onSubmit() {
         this.authService.signin(this.username, this.password)
         .subscribe(
-            res => this.router.navigate(['/users']),
+            res => this.router.navigate(['/profile']),
             err => console.error(err)
         );
     }

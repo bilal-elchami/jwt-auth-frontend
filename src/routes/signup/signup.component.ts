@@ -4,6 +4,7 @@ import { RoleService } from 'src/shared/services/role/role.service';
 import { User } from 'src/model/user';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/shared/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jwt-signup',
@@ -16,12 +17,20 @@ export class SignUpComponent implements OnInit {
     selectedRole: Role = null;
     roles: Role[];
 
-    constructor (private roleService: RoleService, private authService: AuthService, private fb: FormBuilder) { }
+    constructor (
+        private roleService: RoleService,
+        private authService: AuthService,
+        private fb: FormBuilder,
+        private router: Router) { }
 
     ngOnInit(): void {
+        if (this.authService.isLoggedIn()) {
+            this.router.navigate(['/profile'])
+        }
         this.initRolesList();
         this.initUser();
     }
+
     initUser(): any {
         this.user.firstName = 'John';
         this.user.lastName = 'Doe';
@@ -43,7 +52,7 @@ export class SignUpComponent implements OnInit {
         this.user.roles = [];
         this.user.roles.push(this.selectedRole);
         this.authService.signup(this.user).subscribe(
-            res => console.log(res),
+            res => this.router.navigate(['/profile']),
             err => console.error(err)
         );
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { User } from 'src/model/user';
@@ -13,10 +13,15 @@ export class AuthService extends BaseService {
   authUrl = this.baseUrl + '/users';
 
   signin(username: string, password: string) {
+    let httpAuthHeaderOptions = {
+        headers: new HttpHeaders({
+          'Authenticating' : 'true'
+        })
+      };
     return this.http.post<string>(
         this.authUrl + '/signin?username=' 
         + username + '&password=' 
-        + password, null)
+        + password, null, httpAuthHeaderOptions)
     .pipe(
       tap(this.saveTokenToLocalStorage),
       catchError(this.handleError)
@@ -32,12 +37,24 @@ export class AuthService extends BaseService {
     );
   }
   
+  signout(): void {
+    this.deleteTokenFromLocalStorage();
+  }
+
   saveTokenToLocalStorage(token: any): void {
     localStorage.setItem('auth_token', token.tokenValue);
   }
 
   getTokenFromLocalStorage(): string {
     return localStorage.getItem('auth_token');
+  }
+
+  deleteTokenFromLocalStorage(): void {
+    localStorage.removeItem('auth_token');
+  }
+
+  isLoggedIn(): boolean {
+    return this.getTokenFromLocalStorage() ? true : false;
   }
 
 }
