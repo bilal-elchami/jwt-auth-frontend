@@ -8,10 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+
   _isLoggedIn = false;
 
-  get isLoggedIn():any {
+  get isLoggedIn(): any {
     return this._isLoggedIn = this.authService.isLoggedIn();
   }
 

@@ -7,20 +7,20 @@ import { BaseService } from '../base.service';
 
 @Injectable()
 export class AuthService extends BaseService {
-  
+
   constructor(private http: HttpClient) { super(); }
 
   authUrl = this.baseUrl + '/users';
 
   signin(username: string, password: string) {
-    let httpAuthHeaderOptions = {
+    const httpAuthHeaderOptions = {
         headers: new HttpHeaders({
           'Authenticating' : 'true'
         })
       };
     return this.http.post<string>(
-        this.authUrl + '/signin?username=' 
-        + username + '&password=' 
+        this.authUrl + '/signin?username='
+        + username + '&password='
         + password, null, httpAuthHeaderOptions)
     .pipe(
       tap(this.saveTokenToLocalStorage),
@@ -36,7 +36,7 @@ export class AuthService extends BaseService {
       catchError(this.handleError)
     );
   }
-  
+
   signout(): void {
     this.deleteTokenFromLocalStorage();
   }

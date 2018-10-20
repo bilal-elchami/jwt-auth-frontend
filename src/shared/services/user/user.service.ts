@@ -13,7 +13,15 @@ export class UserService extends BaseService {
 
   getUsers() {
     return this.http.get<User[]>(
-        this.roleUrl, this.httpOptions)
+      this.roleUrl, this.httpOptions)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getCurrentUser() {
+    return this.http.get<User>(
+      this.roleUrl + '/me', this.httpOptions)
     .pipe(
       catchError(this.handleError)
     );

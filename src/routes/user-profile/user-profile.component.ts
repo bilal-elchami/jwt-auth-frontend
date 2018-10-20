@@ -6,7 +6,7 @@ import { User } from 'src/model/user';
   templateUrl: './user-profile.component.html'
 })
 export class UserProfileComponent {
-    
+
     @Input()
     user: User = new User();
 

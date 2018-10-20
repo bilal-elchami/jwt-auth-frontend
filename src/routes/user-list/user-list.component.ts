@@ -18,5 +18,5 @@ export class UserListComponent implements OnInit {
             err => console.error(err)
         );
     }
-    
+
 }

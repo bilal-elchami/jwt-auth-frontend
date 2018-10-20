@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Role } from 'src/model/role'
+import { Role } from 'src/model/role';
 import { RoleService } from 'src/shared/services/role/role.service';
 import { User } from 'src/model/user';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -25,7 +25,7 @@ export class SignUpComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.authService.isLoggedIn()) {
-            this.router.navigate(['/profile'])
+            this.router.navigate(['/profile']);
         }
         this.initRolesList();
         this.initUser();
@@ -37,7 +37,6 @@ export class SignUpComponent implements OnInit {
         this.user.username = 'johndoe';
         this.user.password = 'johndoe';
         this.user.email = 'john.doe@example.com';
-        
     }
 
     initRolesList(): any {

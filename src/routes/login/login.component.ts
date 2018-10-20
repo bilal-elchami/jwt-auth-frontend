@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/profile'])
         }
     }
-    
+
     onSubmit() {
         this.authService.signin(this.username, this.password)
         .subscribe(
