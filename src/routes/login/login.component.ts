@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/shared/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'bill-login',
@@ -9,23 +10,31 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-    constructor (private authService: AuthService, private router: Router) { }
+    constructor (private authService: AuthService, private fb: FormBuilder, private router: Router) { }
 
-    username: string;
-    password: string;
+    badCredentials = false;
+
+    currentYear = (new Date()).getFullYear();
+    loginForm: FormGroup;
 
     ngOnInit(): void {
         if (this.authService.isLoggedIn()) {
-            this.router.navigate(['/profile'])
+            this.router.navigate(['/profile']);
         }
+        this.loginForm = this.fb.group({
+            username: [null, Validators.required],
+            password: [null, Validators.required]
+        });
     }
 
     onSubmit() {
-        this.authService.signin(this.username, this.password)
-        .subscribe(
-            res => this.router.navigate(['/profile']),
-            err => console.error(err)
-        );
+        if (this.loginForm.valid) {
+            this.authService.signin(this.loginForm.value.username, this.loginForm.value.password)
+                .subscribe(
+                    res => this.router.navigate(['/profile']),
+                    err => this.badCredentials = true
+                );
+        }
     }
 
 }

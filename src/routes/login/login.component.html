@@ -1,18 +1,28 @@
 <div class="text-center">
-	<form class="form-signin" (ngSubmit)="onSubmit()">
+	<form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+		<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="badCredentials">
+			<strong>Holy guacamole!</strong><br/>
+			Looks like you misspelled your credentials.
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="badCredentials=false">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
 		<img width="72" height="72" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
 		<!-- <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
 		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 		<label for="inputUsername" class="sr-only">Email address</label>
-		<input [(ngModel)]="username" name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus />
+		<input formControlName="username" name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" autofocus required />
 		<label for="inputPassword" class="sr-only">Password</label>
-		<input [(ngModel)]="password" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-		<div class="checkbox mb-3">
+		<input formControlName="password" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+		<!-- <div class="checkbox mb-3">
 			<label>
 				<input type="checkbox" value="remember-me"> Remember me
 			</label>
-		</div>
+		</div> -->
+		<br />
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-		<p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+		<hr />
+		Or sign up <a routerLink="/signup">here</a>.
+		<p class="mt-5 mb-3 text-muted">&copy; 2017-{{ currentYear }}</p>
 	</form>
 </div>
