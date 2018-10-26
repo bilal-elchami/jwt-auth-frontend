@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap, catchError } from 'rxjs/operators';
-import { User } from 'src/model/user';
+
 import { BaseService } from '../base.service';
+import { User } from 'src/model/user';
 
 @Injectable()
 export class AuthService extends BaseService {
 
-  constructor(private http: HttpClient) { super(); }
+  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { super(); }
 
   authUrl = this.baseUrl + '/users';
 
@@ -53,8 +54,8 @@ export class AuthService extends BaseService {
     localStorage.removeItem('auth_token');
   }
 
-  isLoggedIn(): boolean {
-    return this.getTokenFromLocalStorage() ? true : false;
+  public isAuthenticated(): boolean {
+    return !this.jwtHelper.isTokenExpired(this.getTokenFromLocalStorage());
   }
 
 }

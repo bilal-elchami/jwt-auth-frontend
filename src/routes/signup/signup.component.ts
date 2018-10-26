@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit {
         private router: Router) { }
 
     ngOnInit(): void {
-        if (this.authService.isLoggedIn()) {
+        if (this.authService.isAuthenticated()) {
             this.router.navigate(['/profile']);
         }
         this.initRolesList();

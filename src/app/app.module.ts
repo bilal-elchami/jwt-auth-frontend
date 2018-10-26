@@ -14,7 +14,7 @@ import { PageNotFoundComponent } from 'src/routes/page-not-found/page-not-found.
 import { HomeComponent } from 'src/routes/home/home.component';
 import { UserListComponent } from 'src/routes/user-list/user-list.component';
 import { UserService } from 'src/shared/services/user/user.service';
-import { TokenInterceptor } from 'src/shared/interceptors/auth/jwt-token.interceptor';
+import { JwtModule } from '@auth0/angular-jwt';
 
 const appRoutes: Routes = [
   { path: 'signin', component: LoginComponent },
@@ -26,6 +26,9 @@ const appRoutes: Routes = [
   { path: '**', component: PageNotFoundComponent }
 ];
 
+export function tokenGetter() {
+  return localStorage.getItem('auth_token');
+}
 
 @NgModule({
   declarations: [
@@ -44,14 +47,16 @@ const appRoutes: Routes = [
     FormsModule,
     BrowserModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:8080'],
+        // blacklistedRoutes: ['localhost:8080']
+      }
+    })
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
     AuthService,
     RoleService,
     UserService

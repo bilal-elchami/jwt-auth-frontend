@@ -12,7 +12,7 @@ export class AppComponent {
   _isLoggedIn = false;
 
   get isLoggedIn(): any {
-    return this._isLoggedIn = this.authService.isLoggedIn();
+    return this._isLoggedIn = this.authService.isAuthenticated();
   }
 
   constructor(private authService: AuthService, private router: Router) { }
