@@ -1,9 +1,19 @@
 <div class="text-center">
 	<form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-		<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="badCredentials">
-			<strong>Holy guacamole!</strong><br/>
-			Looks like you misspelled your credentials.
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="badCredentials=false">
+		<div class="alert alert-danger alert-dismissible fade show" role="alert" [ngSwitch]="errorCode" *ngIf="showErrorAlert">
+			<p *ngSwitchCase="ErrorCode.BadCridentials">
+				<strong>Holy guacamole!</strong><br/>
+				Looks like you misspelled your credentials.
+			</p>
+			<p *ngSwitchCase="ErrorCode.SessionExpired">
+				<strong>Snap!</strong><br/>
+				Looks like your session has expired.
+			</p>
+			<p *ngSwitchCase="ErrorCode.NotLoggedIn">
+				<strong>Snap!</strong><br/>
+				You should be logged in to access this page.
+			</p>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="showErrorAlert=false">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>

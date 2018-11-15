@@ -37,7 +37,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputState">Role</label>
-        <select name="roles" id="inputRole" class="form-control" [(ngModel)]="selectedRole">
+        <select name="roles" id="inputRole" class="form-control" [(ngModel)]="selectedRoles" multiple>
           <option [value]="null">Choose...</option>
           <option *ngFor="let role of roles" [ngValue]="role">{{ role.name }}</option>
         </select>

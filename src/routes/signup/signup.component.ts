@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class SignUpComponent implements OnInit {
 
     user: User = new User();
-    selectedRole: Role = null;
+    selectedRoles: Role[] = [];
     roles: Role[];
 
     constructor (
@@ -48,8 +48,7 @@ export class SignUpComponent implements OnInit {
     }
 
     onSubmit(): void {
-        this.user.roles = [];
-        this.user.roles.push(this.selectedRole);
+        this.user.roles = this.selectedRoles;
         this.authService.signup(this.user).subscribe(
             res => this.router.navigate(['/profile']),
             err => console.error(err)

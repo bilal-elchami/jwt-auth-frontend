@@ -58,4 +58,11 @@ export class AuthService extends BaseService {
     return !this.jwtHelper.isTokenExpired(this.getTokenFromLocalStorage());
   }
 
+  public isSessionExpired(): boolean {
+    if (this.getTokenFromLocalStorage()) {
+      return this.jwtHelper.isTokenExpired(this.getTokenFromLocalStorage());
+    }
+    return false;
+  }
+
 }

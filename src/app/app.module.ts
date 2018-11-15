@@ -15,13 +15,15 @@ import { HomeComponent } from 'src/routes/home/home.component';
 import { UserListComponent } from 'src/routes/user-list/user-list.component';
 import { UserService } from 'src/shared/services/user/user.service';
 import { JwtModule } from '@auth0/angular-jwt';
+import { AuthGuardService } from 'src/shared/guards/auth/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: 'signin', component: LoginComponent },
+  { path: 'signin/:error_code', component: LoginComponent },
   { path: 'signup', component: SignUpComponent },
-  { path: 'profile', component: UserProfileComponent },
+  { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
   { path: 'home', component: HomeComponent },
-  { path: 'users', component: UserListComponent },
+  { path: 'users', component: UserListComponent, canActivate: [AuthGuardService] },
   { path: '',   redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -59,7 +61,8 @@ export function tokenGetter() {
   providers: [
     AuthService,
     RoleService,
-    UserService
+    UserService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })
